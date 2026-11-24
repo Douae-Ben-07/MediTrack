@@ -42,5 +42,39 @@ class AlarmService{
     if (dateProgrammee.isBefore(maintenant)) {
       dateProgrammee = dateProgrammee.add(const Duration(days: 1));
     } 
+    //le message du notification avec le sinformation du medicament
+    String titreNotification = 'Rappel : ${medicament.nom}';
+    String messageNotification ='Prendre ${medicament.dosage} (${medicament.forme})';
+
+    //alert supplementaire si le stock est faible
+    if (medicament.stockActuel <= medicament.seuilAlerte) {
+      messageNotification += ' - Attention : stock faible !';
+    }
+    const AndroidNotificationDetails androidDetails =AndroidNotificationDetails(
+      'alarm_channel',
+      'Alarmes Médicaments',
+      channelDescription: 'Rappel pour prendre le médicament',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+    );
+    const NotificationDetails details =NotificationDetails(android: androidDetails);
+
+    //enregister l'alarme avec l'ID du traitemet 
+    await _plugin.zonedSchedule(
+      traitement.id, 
+      titreNotification,
+      messageNotification,
+      dateProgrammee,
+      details,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation:UILocalNotificationDateInterpretation.absoluteTime,//pour ios
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+  // annuler alarme d'un traitement
+  static Future<void> annulerAlarme(int idTraitement) async {
+    await _plugin.cancel(idTraitement);
   }
 }
