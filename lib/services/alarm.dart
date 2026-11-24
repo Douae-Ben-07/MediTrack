@@ -7,7 +7,7 @@ class AlarmService{
   static final FlutterLocalNotificationsPlugin _plugin=FlutterLocalNotificationsPlugin();
   static Future<void> init() async{
     tz_data.initializeTimeZones();
-    const AndroidInitializationSettings androidSettings= AndroidInitializationSettings(@mipmap/ic_launcher);
+    const AndroidInitializationSettings androidSettings= AndroidInitializationSettings('@mipmap/ic_launcher');
     const InitializationSettings settings= InitializationSettings(android: androidSettings);
     await _plugin.initialize(settings);
 
@@ -21,9 +21,9 @@ class AlarmService{
     DateTime Aujourdhui = DateTime.now();
     DateTime finTraitement= DateTime.parse(traitement.dateFin);
 
-    if(aujourdhui.isAfter(finTraitement)){
+    if(Aujourdhui.isAfter(finTraitement)){
       //Annuler alarme si le traitement est fini
-      await annulerAlarm(traitement.id);
+      await annulerAlarme(traitement.id);
       return;
     }
     //extraire heure et minutes depuis heurPrise
