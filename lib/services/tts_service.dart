@@ -49,3 +49,15 @@ Future<void> changeLanguage(String languageCode) async {
   await flutterTts.setLanguage(languageCode);
 }
 
+//Fonction generale pour lire n'importe quel texte
+Future<void> speak(String text) async {
+  if (isInitialized == false) {
+    await init();
+  }
+
+  if (text.trim().isEmpty) {
+    return;
+  }
+  await flutterTts.stop();
+  await flutterTts.speak(text);
+}
