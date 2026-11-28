@@ -41,3 +41,11 @@ class TtsService {
   });
    isInitialized = true;
 }
+
+//Fonction pour changer la langue (Français, Arabe, Anglais)
+//Les codes utilises sont: "fr-FR", "ar-SA", "en-US"
+Future<void> changeLanguage(String languageCode) async {
+  currentLanguage = languageCode;
+  await flutterTts.setLanguage(languageCode);
+}
+
