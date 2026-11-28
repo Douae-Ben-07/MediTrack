@@ -1,4 +1,7 @@
 //TTS Service - handles voice reminders for medicaments
+//Supports: Arabic, French, English
+//-----------------------------------------
+
 import 'package:flutter_tts/flutter_tts.dart';
 
 class TtsService {
