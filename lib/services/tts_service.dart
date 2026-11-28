@@ -40,51 +40,57 @@ class TtsService {
     print("Erreur TTS: $message");
   });
    isInitialized = true;
-}
 
-//Fonction pour changer la langue (Français, Arabe, Anglais)
-//Les codes utilises sont: "fr-FR", "ar-SA", "en-US"
-Future<void> changeLanguage(String languageCode) async {
-  currentLanguage = languageCode;
-  await flutterTts.setLanguage(languageCode);
-}
 
-//Fonction generale pour lire n'importe quel texte
-Future<void> speak(String text) async {
-  if (isInitialized == false) {
-    await init();
+  //Fonction pour changer la langue (Français, Arabe, Anglais)
+  //Les codes utilises sont: "fr-FR", "ar-SA", "en-US"
+  Future<void> changeLanguage(String languageCode) async {
+    currentLanguage = languageCode;
+    await flutterTts.setLanguage(languageCode);
   }
 
-  if (text.trim().isEmpty) {
-    return;
-  }
-  await flutterTts.stop();
-  await flutterTts.speak(text);
-}
+  //Fonction generale pour lire n'importe quel texte
+  Future<void> speak(String text) async {
+    if (isInitialized == false) {
+      await init();
+    }
 
-//fontion pour le rappel d'un medicament selon la langue choisie
-Future<void> speakMedicamentReminder(String nomMedicament, String dose) async {
-  String message = "";
-
-  if (currentLanguage == "ar-SA") {
-    message = "تذكير : حان وقت تناول الدواء $nomMedicament، الجرعة $dose";
-  } else if (currentLanguage == "en-US") {
-    message = "Reminder: Please take your medicine $nomMedicament, dose $dose";
-  } else {
-    //Français par defaut
-    message = "Rappel : Prenez votre médicament $nomMedicament, dose $dose";
+    if (text.trim().isEmpty) {
+      return;
+    }
+    await flutterTts.stop();
+    await flutterTts.speak(text);
   }
 
-await speak(message);
-}
+  //fontion pour le rappel d'un medicament selon la langue choisie
+  Future<void> speakMedicamentReminder(String nomMedicament, String dose) async {
+    String message = "";
 
-//Fonction pour lire un message d'alarme
-Future<void> speakAlarm(String message) async {
-  await speak(message);
-}
+    if (currentLanguage == "ar-SA") {
+      message = "تذكير : حان وقت تناول الدواء $nomMedicament، الجرعة $dose";
+    } else if (currentLanguage == "en-US") {
+      message = "Reminder: Please take your medicine $nomMedicament, dose $dose";
+    } else {
+      //Français par defaut
+      message = "Rappel : Prenez votre médicament $nomMedicament, dose $dose";
+    }
 
-//Fonction pour arreter la voix
-Future<void> stop() async {
-  await flutterTts.stop();
-  isSpeaking = false;
+    await speak(message);
+  }
+
+  //Fonction pour lire un message d'alarme
+  Future<void> speakAlarm(String message) async {
+    await speak(message);
+  }
+
+  //Fonction pour arreter la voix
+  Future<void> stop() async {
+    await flutterTts.stop();
+    isSpeaking = false;
+  }
+
+  //Fontion pour mettre en pause
+    Future<void> pause() async {
+      await flutterTts.pause();
+    }
 }
