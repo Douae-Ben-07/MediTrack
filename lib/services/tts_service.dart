@@ -77,3 +77,14 @@ Future<void> speakMedicamentReminder(String nomMedicament, String dose) async {
 
 await speak(message);
 }
+
+//Fonction pour lire un message d'alarme
+Future<void> speakAlarm(String message) async {
+  await speak(message);
+}
+
+//Fonction pour arreter la voix
+Future<void> stop() async {
+  await flutterTts.stop();
+  isSpeaking = false;
+}
