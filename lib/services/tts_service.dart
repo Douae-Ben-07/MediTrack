@@ -61,3 +61,19 @@ Future<void> speak(String text) async {
   await flutterTts.stop();
   await flutterTts.speak(text);
 }
+
+//fontion pour le rappel d'un medicament selon la langue choisie
+Future<void> speakMedicamentReminder(String nomMedicament, String dose) async {
+  String message = "";
+
+  if (currentLanguage == "ar-SA") {
+    message = "تذكير : حان وقت تناول الدواء $nomMedicament، الجرعة $dose";
+  } else if (currentLanguage == "en-US") {
+    message = "Reminder: Please take your medicine $nomMedicament, dose $dose";
+  } else {
+    //Français par defaut
+    message = "Rappel : Prenez votre médicament $nomMedicament, dose $dose";
+  }
+
+await speak(message);
+}
